@@ -1,0 +1,101 @@
+<script src="processing.min.js"></script>
+<script type="text/processing" data-processing-target="processing-canvas">
+//Robert C. Bradshaw - Georgia Tech (12/20/2014)
+//Recursion is a beautiful thing...
+
+//start background drawing
+final color top1 = #FFCC99;
+final color bottom1 = #FF6699;
+final color top2 = #FFCC99;
+final color bottom2 = #FF6699;
+final int dank = 200;
+color propagate(color a, color b) {
+
+  return lerpColor(a, b, (float) (frameCount % dank) / (float) dank);
+
+}
+ 
+void drawBackground() {
+
+  color topColor = propagate(top1, top2);
+  color bottomColor = propagate(bottom1, bottom2);
+  for (int l = 0; l < height; l++) {
+  
+        color a2b = lerpColor(topColor, bottomColor, (float) l / (float) height);
+        stroke(a2b);
+        line(0, l, width - 1, l);
+  
+  }
+  
+}
+//end background drawing
+
+
+
+
+//recursion-facilitating variables
+var ab = 0;
+var g = 0;
+var count = 0;
+
+//actual setup
+void setup() {
+
+  size(1400, 700, P3D);
+  frameRate(30);
+  lights();
+  sphereDetail(14);
+
+
+}
+
+
+void draw(){
+    drawBackground();
+    directionalLight(240, 240, 240, 0, 0, -1);
+
+    translate(width/2.5, height/15);
+    
+    for(int i = 0; i < 150; i++){
+        rotate(.05);
+        translate(0,0,ab+=.001);
+        //stroke(120,0,50);
+        noStroke();
+        rotateY(g+=.00001);
+        count++
+        if(count % 2 == 1){
+            sphere(i);
+        }
+        else{        
+            sphere(i/2);
+        }
+        
+        
+        
+    }
+    
+    if(i == 130){
+           reverseOscillation(130);    
+    }
+  
+  
+    
+
+};
+
+void reverseOscillation(int i){
+    for(int i = 130; i > 0; i--){
+        rotate(.05);
+        translate(0,0,ab-=.001);
+        stroke(120,0,50);
+	    sphere(i);
+        console.log(i);
+        }
+        
+    int i = 0;
+    return(i);
+
+}
+
+</script>
+<canvas id="processing-canvas"> </canvas>
